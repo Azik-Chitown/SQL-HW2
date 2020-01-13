@@ -1,0 +1,48 @@
+/*Question 1*/
+
+select DISTINCT fname, lname
+from Employee
+where SSN in (select ssn from WORKS_ON);
+
+
+/* Question 2*/
+
+select e.DNO, d.DNAME, avg(e.salary) AS Average_Salary
+from EMPLOYEE e, DEPARTMENT d
+where e.dno=d.dnumber
+group by e.dno, d.DNAME
+order by dno;
+
+/* Question 3*/
+
+select e.lname
+from employee e, department d
+where e.ssn=d.MGR_SSN and e.ssn not in (select essn from dependent);
+
+/* Question 4*/
+
+select e.DNO, e.fname, e.lname, d.DNAME, e.salary
+from EMPLOYEE e, DEPARTMENT d
+where e.DNO=d.DNUMBER and 
+          (e.dno, e.salary)in 
+          (select dno, MIN (salary)
+           from employee
+           group by dno
+           );
+
+
+
+/* Question 5*/
+
+select e.dno as Dept_number,count(*) as Emp_count
+from dependent d 
+ join employee e on d.essn=e.ssn
+group by e.ssn, e.dno
+order by e.dno;
+
+
+/* Question 6*/
+
+select * 
+from employee
+where salary>=(select MAX(salary) from employee)-20000;

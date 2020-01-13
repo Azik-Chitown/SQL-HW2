@@ -1,0 +1,80 @@
+/* PartA 
+
+Question 1 */
+
+select * 
+from bycar
+where MILEAGE>=27;
+
+/* Question 2 */
+
+select TID
+from trips
+where TRAVELMODE='Train' and Fare>150;
+
+/*Alternatively*/
+
+select  bytrain.TID
+from bytrain, trips
+where trips.tid = bytrain.TID and trips.FARE>150;
+
+/* Question 3 */
+
+select TID
+from trips
+where TRIPSTATE='Non-US';
+
+
+/* Question 4 */
+
+select BYPLANE.TID
+from BYPLANE,TRIPS
+WHERE trips.tid = BYPLANE.TID AND BYPLANE.CLASS='Business' and TRIPS.FARE>1000;
+
+/* Question 5 */
+SELECT * 
+from (select* from trips where Travelmode='Car' ) t1, 
+     (select* from trips where Travelmode='Train' ) t2
+
+where t1.Tripstate=t2.Tripstate and t1.fare>t2.fare;
+
+/* Question 6 */
+
+SELECT t1.TID,t2.TID, t1.MILEAGE
+from BYCAR t1
+     Join BYCAR t2
+     ON t1.MILEAGE=t2.MILEAGE
+     AND t1.TID<t2.TID;
+
+/* Question 7 */
+select t1.TID, t1.TRAINSPEED, t2.TID, t2.TRAINSPEED
+from bytrain t1
+     Join bytrain t2
+     On t1.TRAINSPEED!=t2.TRAINSPEED
+     AND t1.TID<t2.TID;
+
+
+/* Question 8 */
+select t1.TID, t1.TRAVELMODE,t1.TRIPSTATE, t2.TID
+from trips t1
+     Join trips t2
+     On t1.TRAVELMODE=t2.TRAVELMODE
+     And t1.TRIPSTATE=t2.TRIPSTATE
+     AND t1.TID<t2.TID;
+
+
+/* Question 9*/
+select trips.TID, trips.Tripstate, trips.TRAVELMODE
+from trips trips, bycar c, bytrain t, byplane p
+where trips.TID=c.tid and trips.tid=c.tid and trips.tid=t.tid and trips.tid=p.tid;
+
+/* Question 10 a*/
+select * from trips where fare not in 
+(select a.fare from trips a, trips b where a.fare<b.fare);
+
+/* Question 10 b*/
+
+select * from trips where fare not in 
+(select a.fare from trips a, trips b where a.fare>b.fare);
+
+
